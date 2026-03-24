@@ -59,6 +59,7 @@ function Dashboard() {
   return (
     <div className="container">
       <h2>Dashboard</h2>
+      <p>Subscription Status: Active</p>
       <p style={{ color: "gray" }}>Logged in as: {email}</p>
 
       {/* SCORE */}
