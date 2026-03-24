@@ -12,77 +12,48 @@ function Dashboard() {
 
   const email = localStorage.getItem("email");
 
-  // ------------------ SCORE ------------------
+  const BASE_URL = "https://golf-backend-u9kw.onrender.com";
+
+  // -------- SCORE --------
   const addScore = async () => {
-    try {
-      const res = await axios.post("http://localhost:5000/add-score", {
-        email,
-        score,
-      });
-      setScores(res.data.scores);
-      setScore("");
-    } catch (error) {
-      alert("Error adding score");
-    }
+    const res = await axios.post(`${BASE_URL}/add-score`, {
+      email,
+      score,
+    });
+    setScores(res.data.scores);
+    setScore("");
   };
 
   const getScores = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/scores/${email}`
-      );
-      setScores(res.data);
-    } catch (error) {
-      alert("Error fetching scores");
-    }
+    const res = await axios.get(`${BASE_URL}/scores/${email}`);
+    setScores(res.data);
   };
 
-  // ------------------ DRAW ------------------
+  // -------- DRAW --------
   const runDraw = async () => {
-    try {
-      const res = await axios.post("http://localhost:5000/draw");
-      setDraw(res.data.winning_numbers);
-    } catch (error) {
-      alert("Error running draw");
-    }
+    const res = await axios.post(`${BASE_URL}/draw`);
+    setDraw(res.data.winning_numbers);
   };
 
-  // ------------------ CHARITY ------------------
+  // -------- CHARITY --------
   const loadCharities = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/charities");
-      setCharities(res.data);
-    } catch (error) {
-      alert("Error loading charities");
-    }
+    const res = await axios.get(`${BASE_URL}/charities`);
+    setCharities(res.data);
   };
 
   const chooseCharity = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/select-charity",
-        {
-          email,
-          charity: selectedCharity,
-        }
-      );
+    const res = await axios.post(`${BASE_URL}/select-charity`, {
+      email,
+      charity: selectedCharity,
+    });
 
-      setMyCharity(res.data.charity);
-      alert(res.data.message);
-    } catch (error) {
-      alert("Error selecting charity");
-    }
+    setMyCharity(res.data.charity);
+    alert(res.data.message);
   };
 
   const getMyCharity = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/get-charity/${email}`
-      );
-      setMyCharity(res.data.charity);
-    } catch (error) {
-      alert("Error fetching charity");
-    }
+    const res = await axios.get(`${BASE_URL}/get-charity/${email}`);
+    setMyCharity(res.data.charity);
   };
 
   return (
@@ -90,11 +61,11 @@ function Dashboard() {
       <h2>Dashboard</h2>
       <p style={{ color: "gray" }}>Logged in as: {email}</p>
 
-      {/* -------- SCORE -------- */}
+      {/* SCORE */}
       <h3>Add Score</h3>
       <input
         type="number"
-        placeholder="Enter Score (1-45)"
+        placeholder="Enter Score"
         value={score}
         onChange={(e) => setScore(e.target.value)}
       />
@@ -113,7 +84,7 @@ function Dashboard() {
 
       <hr />
 
-      {/* -------- DRAW -------- */}
+      {/* DRAW */}
       <h3>Monthly Draw</h3>
       <button onClick={runDraw}>Run Draw</button>
 
@@ -125,7 +96,7 @@ function Dashboard() {
 
       <hr />
 
-      {/* -------- CHARITY -------- */}
+      {/* CHARITY */}
       <h3>Charity Selection</h3>
 
       <button onClick={loadCharities}>Load Charities</button>
